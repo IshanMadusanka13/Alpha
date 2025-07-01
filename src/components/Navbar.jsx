@@ -17,12 +17,13 @@ const Navbar = () => (
         Alpha
       </h2>
       <div className="flex gap-4">
-        <button className="text-white font-semibold px-4 py-2 rounded hover:bg-white/10 transition-colors">Home</button>
-        <button className="text-white font-semibold px-4 py-2 rounded hover:bg-white/10 transition-colors">About</button>
-        <button className="text-white font-semibold px-4 py-2 rounded hover:bg-white/10 transition-colors">Contact</button>
-        <button className="text-white font-semibold px-4 py-2 rounded hover:bg-white/10 transition-colors">Projects</button>
+        <a href="#home" className="text-white font-semibold px-4 py-2 rounded hover:bg-white/10 transition-colors">Home</a>
+        <a href="#about" className="text-white font-semibold px-4 py-2 rounded hover:bg-white/10 transition-colors">About</a>
+        <a href="#contact" className="text-white font-semibold px-4 py-2 rounded hover:bg-white/10 transition-colors">Contact</a>
+        <a href="#projects" className="text-white font-semibold px-4 py-2 rounded hover:bg-white/10 transition-colors">Projects</a>
       </div>
     </div>
+
   </motion.nav>
 );
 

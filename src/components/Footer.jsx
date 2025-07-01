@@ -14,24 +14,6 @@ const Footer = () => (
   >
     <div className="footer-gradient" />
     <div className={`${styles.innerWidth} mx-auto flex flex-col gap-8`}>
-      <div className="flex items-center justify-between flex-wrap gap-5">
-        <h4 className="font-bold md:text-[48px] text-[32px] text-white">
-          Ready to build your next big idea?
-        </h4>
-        <a
-          href="mailto:your@email.com"
-          className="flex items-center h-fit py-4 px-6 bg-blue-600 hover:bg-blue-700 rounded-[32px] gap-[12px] transition-colors"
-        >
-          <img
-            src="/mail.svg"
-            alt="Contact"
-            className="w-[24px] h-[24px] object-contain"
-          />
-          <span className="font-normal text-[16px] text-white">
-            Contact Us
-          </span>
-        </a>
-      </div>
 
       <div className="flex flex-col">
         <div className="mb-[32px] h-[2px] bg-white opacity-10" />

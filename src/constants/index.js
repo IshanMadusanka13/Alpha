@@ -1,26 +1,26 @@
 export const aboutFeatures = [
-  'We design and build modern web, mobile, and desktop applications tailored to your needs.',
-  'Our solutions focus on performance, security, and a seamless user experience.',
-  'We use the latest technologies and creative motion effects to make your product stand out.',
-  'From idea to launch, we work closely with you every step of the way.',
+	'We design and build modern web, mobile, and desktop applications tailored to your needs.',
+	'Our solutions focus on performance, security, and a seamless user experience.',
+	'We use the latest technologies and creative motion effects to make your product stand out.',
+	'From idea to launch, we work closely with you every step of the way.',
 ];
 
 export const socials = [
-  {
-    name: 'twitter',
-    url: '/twitter.svg',
-    link: 'https://twitter.com/VigneshGupta9',
-  },
-  {
-    name: 'linkedin',
-    url: '/linkedin.svg',
-    link: 'https://www.linkedin.com/in/vigneshgupta/',
-  },
-  {
-    name: 'instagram',
-    url: '/instagram.svg',
-    link: 'https://www.instagram.com/_viggi.g_/',
-  },
+	{
+		name: 'twitter',
+		url: '/twitter.svg',
+		link: 'https://twitter.com/',
+	},
+	{
+		name: 'linkedin',
+		url: '/linkedin.svg',
+		link: 'https://www.linkedin.com/in/',
+	},
+	{
+		name: 'instagram',
+		url: '/instagram.svg',
+		link: 'https://www.instagram.com/',
+	},
 ];
 
 export const projects = [
@@ -62,7 +62,7 @@ export const projects = [
 			"Responsive design"
 		]
 	},
-		{
+	{
 		id: "skillSync",
 		name: "SkillSync",
 		type: "Web App",
@@ -97,5 +97,15 @@ export const projects = [
 			"Inventory tracking",
 			"Supplier management"
 		]
+	}
+];
+
+export const contact = [
+	{
+		SERVICE_ID: 'service_ljfr49s',
+		TEMPLATE_ID: 'template_5bpbclg',
+		PUBLIC_KEY: '26mO2wmEZDTbVnEfX',
+		name: 'Ishan Madusanka',
+		email: 'madusankaishan13@gmail.com',
 	}
 ];
