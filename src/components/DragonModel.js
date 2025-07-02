@@ -7,18 +7,36 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Suspense, useEffect, useRef, useLayoutEffect, useState } from 'react';
 import * as THREE from 'three';
 
-// Dragon 3D Model Component with Hero Integration
+// Dragon 3D Model Component with Smooth Color Transitions
 function Dragon({ dragonColor, accentColor, emissiveIntensity = 0.15, onDragonClick, heroColors }) {
   const group = useRef();
+  const materialRef = useRef();
   const gltf = useLoader(GLTFLoader, '/dragon.glb');
   const { actions } = useAnimations(gltf.animations, group);
 
-  // Apply colors to the dragon model with hero theme integration
+  // Smooth color transition using Three.js Color.lerp
+  useFrame((state, delta) => {
+    if (materialRef.current && dragonColor) {
+      const targetColor = new THREE.Color(dragonColor);
+      const targetEmissive = new THREE.Color(dragonColor).multiplyScalar(emissiveIntensity);
+      
+      // Smooth color interpolation
+      materialRef.current.color.lerp(targetColor, delta * 2);
+      materialRef.current.emissive.lerp(targetEmissive, delta * 2);
+    }
+
+    // Enhanced rotation with hero section synchronization
+    if (group.current) {
+      group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.15) * 0.2;
+      group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.05;
+    }
+  });
+
+  // Apply initial colors to the dragon model
   useLayoutEffect(() => {
     if (gltf.scene) {
       gltf.scene.traverse((child) => {
         if (child.isMesh) {
-          // Enhanced material with hero theme integration
           const newMaterial = new THREE.MeshStandardMaterial({
             color: new THREE.Color(dragonColor),
             roughness: 0.15,
@@ -29,13 +47,14 @@ function Dragon({ dragonColor, accentColor, emissiveIntensity = 0.15, onDragonCl
             opacity: 0.95
           });
           
+          materialRef.current = newMaterial;
           child.material = newMaterial;
           child.castShadow = true;
           child.receiveShadow = true;
         }
       });
     }
-  }, [gltf.scene, dragonColor, accentColor, emissiveIntensity]);
+  }, [gltf.scene]);
 
   useEffect(() => {
     if (actions && Object.keys(actions).length > 0) {
@@ -43,14 +62,6 @@ function Dragon({ dragonColor, accentColor, emissiveIntensity = 0.15, onDragonCl
       firstAnimation?.play();
     }
   }, [actions]);
-
-  // Enhanced rotation with hero section synchronization
-  useFrame((state) => {
-    if (group.current) {
-      group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.15) * 0.2;
-      group.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.05;
-    }
-  });
 
   const handleClick = (event) => {
     event.stopPropagation();
@@ -89,52 +100,44 @@ function LoadingSpinner() {
   );
 }
 
-// Main DragonModel Component with Hero Integration
-export default function DragonModel({ heroColors }) {
-  const [dragonColor, setDragonColor] = useState('#ff6b35');
-  const [accentColor, setAccentColor] = useState('#4ecdc4');
+// Main DragonModel Component with Smooth Transitions
+export default function DragonModel({ heroColors, currentColorIndex }) {
+  const [dragonColor, setDragonColor] = useState('#8b5cf6');
+  const [accentColor, setAccentColor] = useState('#ec4899');
 
-  // Hero-themed color schemes that match your gradient design
+  // Hero-themed color schemes
   const heroColorSchemes = [
-    { primary: '#8b5cf6', accent: '#ec4899' }, // Purple-Pink (matches hero gradients)
-    { primary: '#06b6d4', accent: '#8b5cf6' }, // Cyan-Purple
-    { primary: '#10b981', accent: '#3b82f6' }, // Green-Blue
-    { primary: '#f59e0b', accent: '#ef4444' }, // Yellow-Red
-    { primary: '#ec4899', accent: '#8b5cf6' }, // Pink-Purple
-    { primary: '#3b82f6', accent: '#06b6d4' }, // Blue-Cyan
-    { primary: '#ef4444', accent: '#f59e0b' }, // Red-Yellow
-    { primary: '#6366f1', accent: '#ec4899' }, // Indigo-Pink
-    { primary: '#14b8a6', accent: '#8b5cf6' }, // Teal-Purple
-    { primary: '#f97316', accent: '#06b6d4' }  // Orange-Cyan
-  ];
+  { primary: '#2d1b69', accent: '#8b0000' }, // Midnight Purple-Dark Red
+  { primary: '#1a1a2e', accent: '#e53e3e' }, // Dark Navy-Crimson
+  { primary: '#16213e', accent: '#c53030' }, // Dark Blue-Red
+  { primary: '#0f0f23', accent: '#f56565' }, // Almost Black-Light Red
+  { primary: '#2d3748', accent: '#e53e3e' }, // Dark Gray-Crimson
+  { primary: '#553c9a', accent: '#9b2c2c' }, // Dark Purple-Dark Red
+  { primary: '#1a202c', accent: '#fc8181' }, // Charcoal-Light Red
+  { primary: '#322659', accent: '#e53e3e' }, // Deep Purple-Crimson
+  { primary: '#2c5282', accent: '#c53030' }, // Dark Blue-Red
+  { primary: '#1a1a1a', accent: '#ff6b6b' }  // Near Black-Coral Red
+];
 
-  const getRandomColors = () => {
-    const randomScheme = heroColorSchemes[Math.floor(Math.random() * heroColorSchemes.length)];
-    return randomScheme;
-  };
 
-  // Synchronized auto color change with hero animations
+  // Sync with hero color changes
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newColors = getRandomColors();
-      setDragonColor(newColors.primary);
-      setAccentColor(newColors.accent);
-    }, 4000); // Slightly faster to match hero energy
-
-    return () => clearInterval(interval);
-  }, []);
+    if (currentColorIndex !== undefined) {
+      const colors = heroColorSchemes[currentColorIndex];
+      setDragonColor(colors.primary);
+      setAccentColor(colors.accent);
+    }
+  }, [currentColorIndex]);
 
   const handleDragonClick = () => {
-    const newColors = getRandomColors();
+    const randomIndex = Math.floor(Math.random() * heroColorSchemes.length);
+    const newColors = heroColorSchemes[randomIndex];
     setDragonColor(newColors.primary);
     setAccentColor(newColors.accent);
   };
 
   return (
     <div className="w-full h-full relative">
-      {/* Enhanced background effects that blend with hero */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-blue-500/5 rounded-2xl blur-xl"></div>
-      
       <Suspense fallback={<LoadingSpinner />}>
         <Canvas
           camera={{ 
@@ -156,7 +159,6 @@ export default function DragonModel({ heroColors }) {
           }}
           dpr={[1, 2]}
         >
-          {/* Hero-synchronized lighting */}
           <ambientLight intensity={0.3} />
           <directionalLight 
             position={[10, 8, 5]} 
@@ -166,7 +168,6 @@ export default function DragonModel({ heroColors }) {
             shadow-mapSize-height={2048}
           />
           
-          {/* Dynamic colored lights matching hero theme */}
           <pointLight 
             position={[-6, 6, 6]} 
             intensity={0.8} 
@@ -188,10 +189,8 @@ export default function DragonModel({ heroColors }) {
             castShadow
           />
 
-          {/* Hero-themed environment */}
           <Environment preset="city" />
           
-          {/* Enhanced shadows */}
           <ContactShadows
             position={[0, -0.8, 0]}
             opacity={0.3}
@@ -209,7 +208,6 @@ export default function DragonModel({ heroColors }) {
             heroColors={heroColors}
           />
           
-          {/* Refined controls for hero integration */}
           <OrbitControls
             enablePan={false}
             enableZoom={false}
@@ -224,7 +222,6 @@ export default function DragonModel({ heroColors }) {
         </Canvas>
       </Suspense>
       
-      {/* Subtle interaction hint */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs text-white/40 pointer-events-none font-medium">
         Click dragon to transform
       </div>
