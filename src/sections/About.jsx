@@ -10,12 +10,13 @@ import { aboutFeatures } from '../constants';
 
 const About = () => (
   <section className={`${styles.paddings} relative z-10`}>
+    <div className="absolute inset-0 bg-black/10 backdrop-blur-sm" />
     <motion.div
       variants={staggerContainer}
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
-      className={`${styles.innerWidth} mx-auto flex lg:flex-row flex-col gap-8`}
+      className={`${styles.innerWidth} mx-auto flex lg:flex-row flex-col gap-8 relative z-10`}
     >
       <motion.div
         variants={planetVariants('left')}

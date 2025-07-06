@@ -68,7 +68,8 @@ const Hero = () => {
 
   return (
     <section className={`${styles.yPaddings} sm:pl-16 pl-6 relative overflow-hidden`}>
-      {/* Unified Animated Background */}
+      {/* REMOVE OR COMMENT OUT these background divs */}
+      {/* 
       <motion.div
         key={currentColorIndex}
         initial={{ opacity: 0 }}
@@ -78,9 +79,12 @@ const Hero = () => {
         className={`absolute inset-0 bg-gradient-to-br ${currentColors.background} blur-3xl`}
       />
       
-      {/* Additional background layers for depth */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_rgba(0,0,0,0.3)_100%)]" />
+      */}
+
+      {/* Keep only subtle overlays for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20" />
 
       <motion.div
         variants={staggerContainer}
@@ -317,7 +321,7 @@ const Hero = () => {
             <motion.div
               key={`bg-1-${currentColorIndex}`}
               initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ 
+              animate={{
                 opacity: [0.03, 0.12, 0.03],
                 scale: [1, 1.2, 1],
                 rotate: [0, 90, 180, 270, 360]
@@ -331,7 +335,7 @@ const Hero = () => {
               className={`absolute top-32 left-32 w-96 h-96 bg-gradient-to-r ${currentColors.background} rounded-full blur-3xl`}
             />
           </AnimatePresence>
-          
+
           <AnimatePresence mode="wait">
             <motion.div
               key={`bg-2-${currentColorIndex}`}

@@ -53,9 +53,9 @@ const Navbar = () => {
       variants={navVariants}
       initial="hidden"
       whileInView="show"
-      className={`${styles.xPaddings} py-8 relative overflow-hidden backdrop-blur-md`}
+      className={`${styles.xPaddings} py-8 relative overflow-hidden backdrop-blur-sm`} // Reduced backdrop blur
     >
-      {/* Primary Animated Background - matches hero exactly */}
+      {/* Reduce opacity of background gradients */}
       <AnimatePresence mode="wait">
         <motion.div
           key={`navbar-primary-${currentColorIndex}`}
@@ -63,7 +63,7 @@ const Navbar = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 2, ease: "easeInOut" }}
-          className={`absolute inset-0 bg-gradient-to-br ${currentColors.background} blur-2xl`}
+          className={`absolute inset-0 bg-gradient-to-br ${currentColors.background} blur-2xl opacity-30`} // Added opacity-30
         />
       </AnimatePresence>
 
@@ -80,7 +80,7 @@ const Navbar = () => {
       </AnimatePresence>
 
       {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/20" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_transparent_0%,_rgba(0,0,0,0.3)_100%)]" />
 
       {/* Original gradient overlay */}
@@ -105,8 +105,8 @@ const Navbar = () => {
         <div className="flex gap-4">
           <motion.a
             href="#home"
-            whileHover={{ 
-              scale: 1.05, 
+            whileHover={{
+              scale: 1.05,
               backgroundColor: 'rgba(255, 255, 255, 0.15)',
               y: -2,
               boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)'
@@ -118,8 +118,8 @@ const Navbar = () => {
           </motion.a>
           <motion.a
             href="#about"
-            whileHover={{ 
-              scale: 1.05, 
+            whileHover={{
+              scale: 1.05,
               backgroundColor: 'rgba(255, 255, 255, 0.15)',
               y: -2,
               boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)'
@@ -131,8 +131,8 @@ const Navbar = () => {
           </motion.a>
           <motion.a
             href="#contact"
-            whileHover={{ 
-              scale: 1.05, 
+            whileHover={{
+              scale: 1.05,
               backgroundColor: 'rgba(255, 255, 255, 0.15)',
               y: -2,
               boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)'
@@ -144,8 +144,8 @@ const Navbar = () => {
           </motion.a>
           <motion.a
             href="#projects"
-            whileHover={{ 
-              scale: 1.05, 
+            whileHover={{
+              scale: 1.05,
               backgroundColor: 'rgba(255, 255, 255, 0.15)',
               y: -2,
               boxShadow: '0 8px 25px rgba(139, 92, 246, 0.3)'
@@ -205,7 +205,7 @@ const Navbar = () => {
         <motion.div
           key={`mystical-glow-${currentColorIndex}`}
           initial={{ opacity: 0 }}
-          animate={{ 
+          animate={{
             opacity: [0.1, 0.3, 0.1],
             scale: [0.8, 1.2, 0.8]
           }}
