@@ -21,7 +21,6 @@ const About = () => (
         variants={planetVariants('left')}
         className={`${styles.flexCenter} flex-1`}
       >
-        <img src="/laptop3d.png" alt="About Us" className="w-[90%] h-[90%] object-contain" />
       </motion.div>
       <motion.div
         variants={fadeIn('left', 'tween', 0.2, 1)}

@@ -174,18 +174,18 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
   const arrPositionModel = [
     {
       id: 'home',
-      position: { x: 0.600, y: -0.890, z: 0.000 },
+      position: { x: 0.900, y: -0.760, z: 0.000 },
       rotation: { x: 0.140, y: -0.919, z: 0.000 },
-      scale: { x: 0.05, y: 0.05, z: 0.05 },
+      scale: { x: 0.04, y: 0.04, z: 0.04 },
       animationIndex: 0,
       loopMode: THREE.LoopRepeat,        // CHANGE: Continuous loop
       timeScale: 1.0                     // CHANGE: Animation speed
     },
     {
       id: 'about',
-      position: { x: -1.010, y: -2.240, z: -2 },
-      rotation: { x: 0.160, y: -0.060, z: 0 },
-      scale: { x: 0.037, y: 0.037, z: 0.037 },
+      position: { x: -1.210, y: -1.620, z: -2 },
+      rotation: { x: 0.330, y: 0.760, z: 0 },
+      scale: { x: 0.030, y: 0.030, z: 0.030 },
       animationIndex: 2,
       loopMode: THREE.LoopRepeat,        // CHANGE: Continuous loop
       timeScale: 0.8                     // CHANGE: Slower animation
@@ -348,14 +348,57 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
 
       action.timeScale = timeScale;
       action.setLoop(loopMode);
-      action.clampWhenFinished = false;          // CRITICAL: Don't clamp for continuous play
+      action.clampWhenFinished = false;
       action.setEffectiveTimeScale(timeScale);
       action.setEffectiveWeight(1);
 
-      // Start the animation
-      action.reset();
-      action.fadeIn(0.5);
-      action.play();
+      if (animationIndex === 2) {
+        action.reset();
+        action.time = 9.0;
+        action.setLoop(THREE.LoopRepeat, Infinity);
+        action.clampWhenFinished = false;
+        action.setEffectiveTimeScale(1.0);
+        action.setEffectiveWeight(1);
+
+        // Use the proper event system for loop detection
+        mixer.current.addEventListener('loop', (event) => {
+          if (event.action === action) {
+            console.log('🔄 Loop detected, resetting time to 9s');
+            action.time = 13.0;
+          }
+        });
+
+        action.play();
+      }else if (animationIndex === 9) {
+        action.reset();
+        action.time = 74.0;
+        action.setLoop(THREE.LoopRepeat, Infinity);
+        action.clampWhenFinished = false;
+        action.setEffectiveTimeScale(1.0);
+        action.setEffectiveWeight(1);
+
+        // Use the proper event system for loop detection
+        mixer.current.addEventListener('loop', (event) => {
+          if (event.action === action) {
+            console.log('🔄 Loop detected, resetting time to 9s');
+            action.time = 70.0;
+          }
+        });
+
+        action.play();
+      }else if (animationIndex === 4) {
+        action.reset();
+        action.time = 19.0;
+        action.setLoop(THREE.LoopOnce);
+        action.clampWhenFinished = true;
+        action.setEffectiveTimeScale(1.0);
+        action.setEffectiveWeight(1);
+        action.play();
+      } else {
+        action.reset();
+        action.fadeIn(0.5);
+        action.play();
+      }
 
       console.log(`🎬 Playing animation ${animationIndex} continuously:`, {
         name: gltf.animations[animationIndex].name,
@@ -364,7 +407,15 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
         loopMode: loopMode === THREE.LoopRepeat ? 'REPEAT' : 'ONCE'
       });
     }
+
+    // Cleanup function to remove event listeners
+    return () => {
+      if (mixer.current) {
+        mixer.current.removeEventListener('loop');
+      }
+    };
   }, [gltf, currentAnimation]);
+
 
 
   useFrame((state, delta) => {
