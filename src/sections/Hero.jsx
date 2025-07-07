@@ -1,9 +1,10 @@
+// Updated Hero.js - Remove DragonModel import and usage
 'use client';
 
 import { motion } from 'framer-motion';
 import styles from '../styles';
 import { slideIn, staggerContainer, textVariant, fadeIn, zoomIn } from '../utils/motion';
-import DragonModel from '../components/DragonModel';
+// Remove this import: import DragonModel from '../components/DragonModel';
 
 const scrollToSection = (id) => {
   const section = document.getElementById(id);
@@ -112,18 +113,22 @@ const Hero = () => (
           </motion.div>
         </div>
 
-        {/* Right Side - Enhanced 3D Dragon Integration */}
+        {/* Right Side - Dragon Space (Now handled by global canvas) */}
         <motion.div
           variants={zoomIn(0.6, 1.4)}
           className="relative flex justify-center items-center order-first lg:order-last"
         >
-          {/* Multi-layered glowing effects */}
+          {/* Multi-layered glowing effects - Keep for visual appeal */}
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/15 via-pink-500/10 to-blue-500/15 rounded-full blur-3xl animate-pulse"></div>
           <div className="absolute inset-4 bg-gradient-to-tl from-cyan-500/10 via-purple-500/15 to-pink-500/10 rounded-full blur-2xl"></div>
 
-          {/* Dragon Model Container with enhanced styling */}
-          <div className="relative z-10 w-full max-w-2xl mx-auto h-[600px] lg:h-[700px]">
-            <DragonModel />
+          {/* Dragon Model Container - Now just a placeholder for effects */}
+          <div className="relative z-10 w-full max-w-2xl mx-auto h-[600px] lg:h-[700px] flex items-center justify-center">
+            {/* Placeholder content or keep empty - Dragon is now global */}
+            <div className="text-center">
+              <div className="text-6xl text-purple-400/20 mb-4">🐉</div>
+              <p className="text-purple-300/60 text-lg">Dragon Loading...</p>
+            </div>
           </div>
 
           {/* Enhanced floating elements with more variety */}
