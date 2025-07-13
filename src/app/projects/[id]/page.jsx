@@ -1,51 +1,48 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { projects } from '../../../constants';
 import { motion } from 'framer-motion';
+import { projects } from '../../../constants';
 
 const codeSnippets = [
-  { text: '<div>', color: '#3b82f6', top: '10%', left: '5%', size: 'text-2xl', delay: 0 },
-  { text: '{...}', color: '#f472b6', top: '30%', left: '80%', size: 'text-xl', delay: 0.8 },
-  { text: 'const', color: '#facc15', top: '60%', left: '15%', size: 'text-lg', delay: 1.2 },
-  { text: '</>', color: '#22d3ee', top: '50%', left: '60%', size: 'text-2xl', delay: 0.4 },
-  { text: '()', color: '#a78bfa', top: '75%', left: '40%', size: 'text-xl', delay: 1.6 },
-  { text: 'return', color: '#34d399', top: '20%', left: '55%', size: 'text-lg', delay: 1.0 },
-  { text: '=>', color: '#f59e42', top: '65%', left: '70%', size: 'text-xl', delay: 0.6 },
-  { text: 'function', color: '#eab308', top: '85%', left: '20%', size: 'text-base', delay: 1.8 },
+    { text: '<div>', color: '#3b82f6', top: '10%', left: '5%', size: 'text-2xl', delay: 0 },
+    { text: '{...}', color: '#f472b6', top: '30%', left: '80%', size: 'text-xl', delay: 0.8 },
+    { text: 'const', color: '#facc15', top: '60%', left: '15%', size: 'text-lg', delay: 1.2 },
+    { text: '</>', color: '#22d3ee', top: '50%', left: '60%', size: 'text-2xl', delay: 0.4 },
+    { text: '()', color: '#a78bfa', top: '75%', left: '40%', size: 'text-xl', delay: 1.6 },
+    { text: 'return', color: '#34d399', top: '20%', left: '55%', size: 'text-lg', delay: 1.0 },
+    { text: '=>', color: '#f59e42', top: '65%', left: '70%', size: 'text-xl', delay: 0.6 },
+    { text: 'function', color: '#eab308', top: '85%', left: '20%', size: 'text-base', delay: 1.8 },
 ];
 
 function AnimatedCodeBackground() {
-  return (
-    <div className="pointer-events-none fixed inset-0 z-0">
-      {codeSnippets.map((item, idx) => (
-        <motion.span
-          key={idx}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: [0, 0.7, 0], y: [30, 0, -30] }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            delay: item.delay,
-            ease: 'easeInOut'
-          }}
-          className={`absolute select-none font-mono ${item.size}`}
-          style={{
-            color: item.color,
-            top: item.top,
-            left: item.left,
-            textShadow: '0 4px 24px rgba(0,0,0,0.6)'
-          }}
-        >
-          {item.text}
-        </motion.span>
-      ))}
-    </div>
-  );
+    return (
+        <div className="pointer-events-none fixed inset-0 z-0">
+            {codeSnippets.map((item, idx) => (
+                <motion.span
+                    key={idx}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: [0, 0.7, 0], y: [30, 0, -30] }}
+                    transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        delay: item.delay,
+                        ease: 'easeInOut',
+                    }}
+                    className={`absolute select-none font-mono ${item.size}`}
+                    style={{
+                        color: item.color,
+                        top: item.top,
+                        left: item.left,
+                        textShadow: '0 4px 24px rgba(0,0,0,0.6)'
+                    }}
+                >
+                    {item.text}
+                </motion.span>
+            ))}
+        </div>
+    );
 }
-
-
-
 
 const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
