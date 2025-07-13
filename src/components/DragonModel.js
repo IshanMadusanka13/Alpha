@@ -1,7 +1,6 @@
 'use client';
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useLoader } from '@react-three/fiber';
+import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Suspense, useEffect, useRef, useLayoutEffect, useState } from 'react';
 import * as THREE from 'three';
@@ -12,7 +11,7 @@ function Dragon({ currentSection, onTransformUpdate }) {
   const group = useRef();
   const mixer = useRef();
   const gltf = useLoader(GLTFLoader, '/dragon.glb');
-  const { camera, gl } = useThree();
+  const { gl } = useThree();
 
   // Mouse interaction state
   const [isDragging, setIsDragging] = useState(false);

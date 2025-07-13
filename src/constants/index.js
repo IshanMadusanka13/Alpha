@@ -97,6 +97,25 @@ export const projects = [
 			"Inventory tracking",
 			"Supplier management"
 		]
+	},
+	{
+		id: "sipnena",
+		name: "Sipnena Institute",
+		type: "Desktop App",
+		status: "Completed",
+		image: 'projects/Sipnena.jpg',
+		tech: "Java, MySQL",
+		description: "Sipnena Institute is a comprehensive desktop application designed for educational institutions, providing a robust platform for managing student and teacher data, class schedules, attendance, and payments. Built with Java and MySQL, the application offers a user-friendly interface that simplifies administrative tasks. It includes features for student enrollment, class management, attendance tracking, and payment processing, making it an essential tool for educational institutions to enhance their operational efficiency.",
+		projectUrl: "https://github.com/IshanMadusanka13/",
+		demoVideo: "/assets/projects/Sipnena-demo.mp4",
+		technologies: ["Java", "MySQL"],
+		features: [
+			"Student enrollment",
+			"Student/Teacher/Class management",
+			"Attendance tracking",
+			"Payment management",
+			"User-friendly interface",
+		]
 	}
 ];
 
