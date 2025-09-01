@@ -97,6 +97,26 @@ export const projects = [
 			"Inventory tracking",
 			"Supplier management"
 		]
+	},
+	{
+		id: "gatePassManagement",
+		name: "Gate Pass Management System",
+		type: "Web App",
+		status: "Completed",
+		image: 'projects/Gate-Pass.png',
+		tech: "React.js, Node.js (Express.js), MongoDB, Azure AD, JWT",
+		description: "We developed a comprehensive Gate Pass Management System to modernize visitor and employee access management. The system replaced the traditional paper-based gate pass process with a fully automated digital platform, enhancing security, reducing manual paperwork, and improving operational efficiency. It incorporated enterprise-grade security with Azure AD integration, role-based access control, and real-time tracking.",
+		projectUrl: "",
+		demoVideo: "/assets/projects/Gate-Pass.mp4",
+		technologies: ["React.js", "Node.js (Express.js)", "MongoDB", "Azure AD", "JWT"],
+		features: [
+			"Digital pass management with automated workflows",
+			"User authentication integrated with Azure AD",
+			"Role-based access control (Admin, Security, Employee)",
+			"Real-time tracking of passes, visitors, and logs",
+			"Secure digital verification at checkpoints",
+			"Administrative dashboard with reporting & analytics"
+		]
 	}
 ];
 

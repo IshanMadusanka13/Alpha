@@ -11,8 +11,11 @@ export default function Page() {
     <div className="bg-primary-black overflow-hidden scroll-smooth relative">
       <Navbar />
       
-      {/* Global Dragon Canvas - Fixed Position */}
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-30">
+      {/* Global Dragon Canvas - Fixed Position with proper pointer-events */}
+      <div 
+        className="fixed top-0 left-0 w-full h-full z-30"
+        style={{ pointerEvents: 'none' }}
+      >
         <DragonModel />
       </div>
       

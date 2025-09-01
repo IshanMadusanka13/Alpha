@@ -8,161 +8,11 @@ import * as THREE from 'three';
 import { gsap } from 'gsap';
 
 // Dragon 3D Model Component with Scroll-Based Movement
-function Dragon({ currentSection, onTransformUpdate }) {
+function Dragon({ currentSection }) {
   const group = useRef();
   const mixer = useRef();
   const gltf = useLoader(GLTFLoader, '/dragon.glb');
-  const { camera, gl } = useThree();
-
-  // Mouse interaction state
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragMode, setDragMode] = useState('position'); // 'position', 'rotation', 'scale'
-  const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
-  const [currentTransform, setCurrentTransform] = useState({
-    position: { x: 0, y: 0, z: 0 },
-    rotation: { x: 0, y: 0, z: 0 },
-    scale: { x: 0.07, y: 0.07, z: 0.07 }
-  });
   const [currentAnimation, setCurrentAnimation] = useState(0);
-
-  // ========================================
-  // MOUSE INTERACTION HANDLERS
-  // ========================================
-  useEffect(() => {
-    const handleMouseDown = (event) => {
-      setIsDragging(true);
-      setLastMousePos({ x: event.clientX, y: event.clientY });
-
-      // Switch modes with keyboard
-      if (event.shiftKey) {
-        setDragMode('rotation');
-      } else if (event.ctrlKey || event.metaKey) {
-        setDragMode('scale');
-      } else {
-        setDragMode('position');
-      }
-
-
-    };
-
-    const handleMouseMove = (event) => {
-      if (!isDragging || !group.current) return;
-
-      const deltaX = event.clientX - lastMousePos.x;
-      const deltaY = event.clientY - lastMousePos.y;
-      const sensitivity = 0.01;
-
-      if (dragMode === 'position') {
-        // Position control
-        group.current.position.x += deltaX * sensitivity;
-        group.current.position.y -= deltaY * sensitivity;
-
-        const newPos = {
-          x: group.current.position.x,
-          y: group.current.position.y,
-          z: group.current.position.z
-        };
-
-        setCurrentTransform(prev => ({ ...prev, position: newPos }));
-
-
-      } else if (dragMode === 'rotation') {
-        // Rotation control
-        group.current.rotation.y += deltaX * sensitivity;
-        group.current.rotation.x += deltaY * sensitivity;
-
-        const newRot = {
-          x: group.current.rotation.x,
-          y: group.current.rotation.y,
-          z: group.current.rotation.z
-        };
-
-        setCurrentTransform(prev => ({ ...prev, rotation: newRot }));
-
-
-      } else if (dragMode === 'scale') {
-        // Scale control
-        const scaleChange = deltaY * -0.001;
-        const newScale = Math.max(0.01, group.current.scale.x + scaleChange);
-
-        group.current.scale.set(newScale, newScale, newScale);
-
-        const newScaleObj = {
-          x: newScale,
-          y: newScale,
-          z: newScale
-        };
-
-        setCurrentTransform(prev => ({ ...prev, scale: newScaleObj }));
-
-      }
-
-      setLastMousePos({ x: event.clientX, y: event.clientY });
-
-      // Update parent component
-      if (onTransformUpdate) {
-        onTransformUpdate(currentTransform);
-      }
-    };
-
-    const handleMouseUp = () => {
-      if (isDragging) {
-        setIsDragging(false);
-
-      }
-    };
-
-    // Keyboard shortcuts
-    const handleKeyDown = (event) => {
-      if (event.key === 'r' || event.key === 'R') {
-
-        setDragMode('rotation');
-      } else if (event.key === 's' || event.key === 'S') {
-
-        setDragMode('scale');
-      } else if (event.key === 'p' || event.key === 'P') {
-
-        setDragMode('position');
-      } else if (event.key === 'c' || event.key === 'C') {
-        // Copy current values to clipboard
-        const copyText = `
-Position: { x: ${currentTransform.position.x.toFixed(3)}, y: ${currentTransform.position.y.toFixed(3)}, z: ${currentTransform.position.z.toFixed(3)} }
-Rotation: { x: ${currentTransform.rotation.x.toFixed(3)}, y: ${currentTransform.rotation.y.toFixed(3)}, z: ${currentTransform.rotation.z.toFixed(3)} }
-Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.y.toFixed(3)}, z: ${currentTransform.scale.z.toFixed(3)} }
-        `;
-        navigator.clipboard.writeText(copyText);
-
-      }
-    };
-
-    // Add event listeners
-    gl.domElement.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      gl.domElement.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isDragging, dragMode, lastMousePos, currentTransform, gl, onTransformUpdate]);
-
-  // Update transform state when group reference changes
-  useEffect(() => {
-    if (group.current) {
-      const pos = group.current.position;
-      const rot = group.current.rotation;
-      const scl = group.current.scale;
-
-      setCurrentTransform({
-        position: { x: pos.x, y: pos.y, z: pos.z },
-        rotation: { x: rot.x, y: rot.y, z: rot.z },
-        scale: { x: scl.x, y: scl.y, z: scl.z }
-      });
-    }
-  }, [group.current]);
 
   // ========================================
   // DRAGON POSITIONS & ROTATIONS FOR EACH SECTION
@@ -192,9 +42,9 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
     },
     {
       id: 'projects',
-      position: { x: 1.370, y: -1.390, z: -3 },
+      position: { x: 2.370, y: -1.390, z: -3 },
       rotation: { x: 0.160, y: -0.060, z: 0 },
-      scale: { x: 0.05, y: 0.05, z: 0.05 },
+      scale: { x: 0.03, y: 0.03, z: 0.03 },
       animationIndex: 9,
       loopMode: THREE.LoopRepeat,        // CHANGE: Continuous loop
       timeScale: 1.2                     // CHANGE: Faster animation
@@ -326,7 +176,6 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
   }, [gltf.scene, gltf.materials, gltf.textures]);
 
   useEffect(() => {
-    console.log('useEffect: gltf.animations:', gltf.animations);
     if (gltf.animations && gltf.animations.length > 0) {
       mixer.current = new THREE.AnimationMixer(gltf.scene);
 
@@ -363,13 +212,12 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
         // Use the proper event system for loop detection
         mixer.current.addEventListener('loop', (event) => {
           if (event.action === action) {
-            console.log('🔄 Loop detected, resetting time to 9s');
             action.time = 13.0;
           }
         });
 
         action.play();
-      }else if (animationIndex === 9) {
+      } else if (animationIndex === 9) {
         action.reset();
         action.time = 74.0;
         action.setLoop(THREE.LoopRepeat, Infinity);
@@ -380,13 +228,12 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
         // Use the proper event system for loop detection
         mixer.current.addEventListener('loop', (event) => {
           if (event.action === action) {
-            console.log('🔄 Loop detected, resetting time to 9s');
             action.time = 70.0;
           }
         });
 
         action.play();
-      }else if (animationIndex === 4) {
+      } else if (animationIndex === 4) {
         action.reset();
         action.time = 19.0;
         action.setLoop(THREE.LoopOnce);
@@ -399,13 +246,6 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
         action.fadeIn(0.5);
         action.play();
       }
-
-      console.log(`🎬 Playing animation ${animationIndex} continuously:`, {
-        name: gltf.animations[animationIndex].name,
-        duration: gltf.animations[animationIndex].duration.toFixed(2) + 's',
-        timeScale: timeScale,
-        loopMode: loopMode === THREE.LoopRepeat ? 'REPEAT' : 'ONCE'
-      });
     }
 
     // Cleanup function to remove event listeners
@@ -416,46 +256,18 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
     };
   }, [gltf, currentAnimation]);
 
-
-
   useFrame((state, delta) => {
     if (mixer.current) {
       mixer.current.update(delta);
 
-      // ADDED: Manual loop check to ensure continuous play
+      // Manual loop check to ensure continuous play
       const actions = mixer.current._actions;
       actions.forEach(action => {
         if (action.enabled && !action.isRunning() && action.getClip()) {
-
           action.reset();
           action.play();
         }
       });
-    }
-
-    // Log transform values every 60 frames (roughly once per second at 60fps)
-    if (state.clock.elapsedTime % 1 < delta && group.current) {
-      const pos = group.current.position;
-      const rot = group.current.rotation;
-      const scl = group.current.scale;
-
-
-    }
-  });
-
-  // Update animation mixer
-  useFrame((state, delta) => {
-    if (mixer.current) {
-      mixer.current.update(delta);
-    }
-
-    // Log transform values every 60 frames (roughly once per second at 60fps)
-    if (state.clock.elapsedTime % 1 < delta && group.current) {
-      const pos = group.current.position;
-      const rot = group.current.rotation;
-      const scl = group.current.scale;
-
-
     }
   });
 
@@ -468,16 +280,12 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
   // 3. Add stagger or delay effects
   useEffect(() => {
     if (group.current && currentSection) {
-
-
       const position_active = arrPositionModel.findIndex(
         (val) => val.id === currentSection
       );
 
       if (position_active >= 0) {
         const new_coordinates = arrPositionModel[position_active];
-
-
 
         // Update animation
         setCurrentAnimation(new_coordinates.animationIndex);
@@ -489,13 +297,7 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
           z: new_coordinates.position.z,
           duration: 2,
           ease: "power2.out",
-          delay: 0,
-          onUpdate: () => {
-
-          },
-          onComplete: () => {
-
-          }
+          delay: 0
         });
 
         // Rotation animation
@@ -505,13 +307,7 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
           z: new_coordinates.rotation.z,
           duration: 2,
           ease: "power2.out",
-          delay: 0,
-          onUpdate: () => {
-
-          },
-          onComplete: () => {
-
-          }
+          delay: 0
         });
 
         // Scale animation
@@ -521,13 +317,7 @@ Scale: { x: ${currentTransform.scale.x.toFixed(3)}, y: ${currentTransform.scale.
           z: new_coordinates.scale.z,
           duration: 2,
           ease: "power2.out",
-          delay: 0,
-          onUpdate: () => {
-
-          },
-          onComplete: () => {
-
-          }
+          delay: 0
         });
       }
     }
@@ -571,17 +361,6 @@ function LoadingSpinner() {
 // Main DragonModel Component with FIXED scroll detection
 export default function DragonModel() {
   const [currentSection, setCurrentSection] = useState('home');
-  const [dragonTransform, setDragonTransform] = useState({
-    position: { x: 0, y: 0, z: 0 },
-    rotation: { x: 0, y: 0, z: 0 },
-    scale: { x: 0.07, y: 0.07, z: 0.07 }
-  });
-  const [currentAnimation, setCurrentAnimation] = useState(0);
-
-  // Handle dragon transform updates
-  const handleTransformUpdate = (transform) => {
-    setDragonTransform(transform);
-  };
 
   // IMPROVED scroll detection function
   const detectCurrentSection = () => {
@@ -612,7 +391,6 @@ export default function DragonModel() {
         }
       }
     });
-
 
     setCurrentSection(currentSectionId);
   };
@@ -674,7 +452,8 @@ export default function DragonModel() {
           style={{
             height: '100%',
             width: '100%',
-            background: 'transparent'
+            background: 'transparent',
+            pointerEvents: 'none'
           }}
           gl={{
             antialias: true,
@@ -699,62 +478,9 @@ export default function DragonModel() {
             color={0xffffff}             // CHANGE: Directional light color
           />
 
-          <Dragon
-            currentSection={currentSection}
-            onTransformUpdate={handleTransformUpdate}
-          />
+          <Dragon currentSection={currentSection} />
         </Canvas>
       </Suspense>
-
-      {/* Enhanced Debug Panel with Live Transform Values */}
-      <div className="absolute top-4 right-4 bg-black/80 text-white p-4 rounded-lg text-sm backdrop-blur-sm z-50 max-w-xs">
-        <div className="mb-2">
-          <span className="text-purple-300 font-bold">Section:</span> {currentSection}
-        </div>
-
-        <div className="mb-2">
-          <div className="text-green-300 font-semibold">📍 Position:</div>
-          <div className="text-xs space-y-1">
-            <div>X: {dragonTransform.position.x.toFixed(3)}</div>
-            <div>Y: {dragonTransform.position.y.toFixed(3)}</div>
-            <div>Z: {dragonTransform.position.z.toFixed(3)}</div>
-          </div>
-        </div>
-
-        <div className="mb-2">
-          <div className="text-blue-300 font-semibold">🔄 Rotation:</div>
-          <div className="text-xs space-y-1">
-            <div>X: {dragonTransform.rotation.x.toFixed(3)} rad</div>
-            <div>Y: {dragonTransform.rotation.y.toFixed(3)} rad</div>
-            <div>Z: {dragonTransform.rotation.z.toFixed(3)} rad</div>
-          </div>
-        </div>
-
-        <div className="mb-2">
-          <div className="text-yellow-300 font-semibold">📏 Scale:</div>
-          <div className="text-xs space-y-1">
-            <div>X: {dragonTransform.scale.x.toFixed(3)}</div>
-            <div>Y: {dragonTransform.scale.y.toFixed(3)}</div>
-            <div>Z: {dragonTransform.scale.z.toFixed(3)}</div>
-          </div>
-        </div>
-
-        <div className="mb-2">
-          <span className="text-orange-300 font-bold">Animation:</span> {currentAnimation}
-        </div>
-
-        <div className="text-xs text-gray-400 mt-3 border-t border-gray-600 pt-2">
-          <div className="font-semibold text-white mb-1">🖱️ Mouse Controls:</div>
-          <div>• Click + Drag: Move</div>
-          <div>• Shift + Drag: Rotate</div>
-          <div>• Ctrl + Drag: Scale</div>
-          <div className="mt-2 font-semibold text-white">⌨️ Keys:</div>
-          <div>• P: Position Mode</div>
-          <div>• R: Rotation Mode</div>
-          <div>• S: Scale Mode</div>
-          <div>• C: Copy Values</div>
-        </div>
-      </div>
     </div>
   );
 }
