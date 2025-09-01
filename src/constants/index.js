@@ -67,7 +67,7 @@ export const projects = [
 		name: "SkillSync",
 		type: "Web App",
 		status: "Completed",
-		image: 'projects/skillSync.png',
+		image: 'projects/skillsync.png',
 		tech: "Vite Js, Spring Boot, PostgreSQL",
 		description: "SkillSync is an innovative social media platform designed for individuals passionate about learning and sharing skills, creating a dynamic online community where users can connect,collaborate, and grow together. Built with Vite.js for a fast and responsive frontend, Spring Boot for robust backend services, and PostgreSQL for reliable data management, SkillSync offers a seamless user experience. The platform features user profiles, skill sharing, and community engagement tools, all while ensuring data security and performance.",
 		projectUrl: "https://github.com/IshanMadusanka13/skillconnect",
@@ -115,7 +115,26 @@ export const projects = [
 			"Role-based access control (Admin, Security, Employee)",
 			"Real-time tracking of passes, visitors, and logs",
 			"Secure digital verification at checkpoints",
-			"Administrative dashboard with reporting & analytics"
+			"Administrative dashboard with reporting & analytics",
+		]
+	},
+	{
+		id: "sipnena",
+		name: "Sipnena Institute",
+		type: "Desktop App",
+		status: "Completed",
+		image: 'projects/Sipnena.png',
+		tech: "Java, MySQL",
+		description: "Sipnena Institute is a comprehensive desktop application designed for educational institutions, providing a robust platform for managing student and teacher data, class schedules, attendance, and payments. Built with Java and MySQL, the application offers a user-friendly interface that simplifies administrative tasks. It includes features for student enrollment, class management, attendance tracking, and payment processing, making it an essential tool for educational institutions to enhance their operational efficiency.",
+		projectUrl: "https://github.com/IshanMadusanka13/",
+		demoVideo: "/assets/projects/Sipnena-demo.mp4",
+		technologies: ["Java", "MySQL"],
+		features: [
+			"Student enrollment",
+			"Student/Teacher/Class management",
+			"Attendance tracking",
+			"Payment management",
+			"User-friendly interface",
 		]
 	}
 ];

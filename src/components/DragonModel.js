@@ -1,7 +1,6 @@
 'use client';
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { useLoader } from '@react-three/fiber';
+import { Canvas, useFrame, useThree, useLoader } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { Suspense, useEffect, useRef, useLayoutEffect, useState } from 'react';
 import * as THREE from 'three';
@@ -12,6 +11,17 @@ function Dragon({ currentSection }) {
   const group = useRef();
   const mixer = useRef();
   const gltf = useLoader(GLTFLoader, '/dragon.glb');
+  const { gl } = useThree();
+
+  // Mouse interaction state
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragMode, setDragMode] = useState('position'); // 'position', 'rotation', 'scale'
+  const [lastMousePos, setLastMousePos] = useState({ x: 0, y: 0 });
+  const [currentTransform, setCurrentTransform] = useState({
+    position: { x: 0, y: 0, z: 0 },
+    rotation: { x: 0, y: 0, z: 0 },
+    scale: { x: 0.07, y: 0.07, z: 0.07 }
+  });
   const [currentAnimation, setCurrentAnimation] = useState(0);
 
   // ========================================
@@ -51,11 +61,11 @@ function Dragon({ currentSection }) {
     },
     {
       id: 'contact',
-      position: { x: 1.940, y: -0.750, z: 0 },
-      rotation: { x: 0.240, y: -0.140, z: 0 },
-      scale: { x: 0.02, y: 0.02, z: 0.02 },
-      animationIndex: 4,
-      loopMode: THREE.LoopOnce,        // CHANGE: Continuous loop
+      position: { x: 1.220, y: -0.880, z: 0 },
+      rotation: { x: 0.130, y: -1.000, z: 0 },
+      scale: { x: 0.014, y: 0.014, z: 0.014 },
+      animationIndex: 26,
+      loopMode: THREE.LoopRepeat,        // CHANGE: Continuous loop
       timeScale: 1                     // CHANGE: Normal speed
     }
   ];
@@ -175,6 +185,7 @@ function Dragon({ currentSection }) {
     }
   }, [gltf.scene, gltf.materials, gltf.textures]);
 
+
   useEffect(() => {
     if (gltf.animations && gltf.animations.length > 0) {
       mixer.current = new THREE.AnimationMixer(gltf.scene);
@@ -203,7 +214,7 @@ function Dragon({ currentSection }) {
 
       if (animationIndex === 2) {
         action.reset();
-        action.time = 9.0;
+        action.time = 12.0;
         action.setLoop(THREE.LoopRepeat, Infinity);
         action.clampWhenFinished = false;
         action.setEffectiveTimeScale(1.0);
@@ -233,13 +244,22 @@ function Dragon({ currentSection }) {
         });
 
         action.play();
-      } else if (animationIndex === 4) {
+      }  else if (animationIndex === 26) {
         action.reset();
-        action.time = 19.0;
-        action.setLoop(THREE.LoopOnce);
-        action.clampWhenFinished = true;
+        action.time = 130.0;
+        action.setLoop(THREE.LoopRepeat, Infinity);
+        action.clampWhenFinished = false;
         action.setEffectiveTimeScale(1.0);
         action.setEffectiveWeight(1);
+
+        // Use the proper event system for loop detection
+        mixer.current.addEventListener('loop', (event) => {
+          if (event.action === action) {
+            console.log('🔄 Loop detected, resetting time to 9s');
+            action.time = 134.40;
+          }
+        });
+
         action.play();
       } else {
         action.reset();
